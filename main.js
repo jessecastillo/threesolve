@@ -15,6 +15,7 @@ const renderer = new THREE.WebGL1Renderer({
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
 camera.position.setZ(30);
+camera.position.setX(-3);
 
 renderer.render( scene, camera );
 
@@ -30,11 +31,14 @@ pointLight.position.set(5, 5, 5)
 const ambientLight = new THREE.AmbientLight(0xffffff)
 scene.add(pointLight, ambientLight)
 
+/*
 const lightHelper = new THREE.PointLightHelper(pointLight)
 const gridHelper = new THREE.GridHelper(200, 50);
 scene.add(lightHelper, gridHelper)
 
 const controls = new OrbitControls(camera, renderer.domElement);
+
+*/
 
 function addStar(){
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
@@ -53,20 +57,6 @@ Array(200).fill().forEach(addStar)
 const spaceTexture = new THREE.TextureLoader().load('./images/space2.jpg');
 scene.background = spaceTexture;
 
-function animate() {
-  requestAnimationFrame( animate );
-
-  torus.rotation.x += 0.01;
-  torus.rotation.y += 0.005;
-  torus.rotation.z += 0.01;
-
-  controls.update();
-
-  renderer.render( scene, camera);
-}
-
-animate()
-
 const crateTexture = new THREE.TextureLoader().load('./images/crate.jpg');
 
 const crate = new THREE.Mesh(
@@ -75,6 +65,11 @@ const crate = new THREE.Mesh(
 );
 
 scene.add(crate);
+
+
+mars.position.z = 30;
+mars.position.setX(-10);
+
 
 //Mars
 
@@ -90,3 +85,40 @@ const mars = new THREE.Mesh(
 );
 
 scene.add(mars)
+
+function moveCamera() {
+
+  const t = document.body.getBoundingClientRect().top;
+  mars.rotation.x += 0.05;
+  mars.rotation.y += 0.075;
+  mars.rotation.z += 0.05;
+
+  crate.rotation.y += 0.01;
+  crate.rotation.z += 0.01;
+
+  camera.position.z = t * -0.01;
+  camera.position.x = t * -0.0002;
+  camera.position.y = t * -0.0002;
+
+}
+
+document.body.onscroll = moveCamera
+moveCamera();
+
+function animate() {
+  requestAnimationFrame( animate );
+
+  torus.rotation.x += 0.01;
+  torus.rotation.y += 0.005;
+  torus.rotation.z += 0.01;
+
+  mars.rotation.x += 0.005;
+
+  //controls.update();
+
+  renderer.render( scene, camera);
+}
+
+animate()
+
+
