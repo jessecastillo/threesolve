@@ -23,7 +23,7 @@ const geometry = new THREE.TorusGeometry( 10, 3, 16, 100)
 const material = new THREE.MeshStandardMaterial( {color:0xFF6347 } );
 const torus = new THREE.Mesh( geometry, material );
 
-scene.add(torus)
+scene.add(torus);
 
 const pointLight = new THREE.PointLight(0xffffff)
 pointLight.position.set(5, 5, 5)
@@ -67,8 +67,6 @@ const crate = new THREE.Mesh(
 scene.add(crate);
 
 
-mars.position.z = 30;
-mars.position.setX(-10);
 
 
 //Mars
@@ -85,6 +83,13 @@ const mars = new THREE.Mesh(
 );
 
 scene.add(mars)
+
+mars.position.z = 30;
+mars.position.setX(-10);
+
+crate.position.z = -5;
+crate.position.x = 2;
+
 
 function moveCamera() {
 
